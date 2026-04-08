@@ -18,6 +18,8 @@ import com.example.demo_adv.model.DTOs.ClienteRequestDTO;
 import com.example.demo_adv.model.DTOs.ClienteResponseDTO;
 import com.example.demo_adv.model.service.ClienteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/clientes")
 @CrossOrigin(origins = "http://localhost:8081")
@@ -28,7 +30,7 @@ public class ClienteController {
 
     // CREATE
     @PostMapping
-    public ClienteResponseDTO criar(@RequestBody ClienteRequestDTO cliente) {
+    public ClienteResponseDTO criar(@Valid @RequestBody ClienteRequestDTO cliente) {
         return service.salvar(cliente);
     }
 
@@ -46,7 +48,7 @@ public class ClienteController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public ClienteResponseDTO atualizar(@PathVariable UUID id, @RequestBody ClienteRequestDTO clienteAtualizado) {
+    public ClienteResponseDTO atualizar(@PathVariable UUID id, @Valid @RequestBody ClienteRequestDTO clienteAtualizado) {
         return service.atualizar(id, clienteAtualizado);
     }
 

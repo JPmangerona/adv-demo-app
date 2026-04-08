@@ -34,9 +34,10 @@ public class ClienteService {
         Cliente cliente = new Cliente();
         cliente.setCpf(dto.getCpf());
         cliente.setName(dto.getName());
-        cliente.setUsername(dto.getUsername());
-        cliente.setEmail(dto.getEmail());
-        cliente.setPassword(passwordEncoder.encode(dto.getPassword()));
+        cliente.setUsername(dto.getUsername() != null ? dto.getUsername() : dto.getCpf());
+        cliente.setEmail(dto.getEmail() != null ? dto.getEmail() : "cliente_" + dto.getCpf() + "@sistema");
+        String senha = dto.getPassword() != null && !dto.getPassword().isBlank() ? dto.getPassword() : "TempPass123";
+        cliente.setPassword(passwordEncoder.encode(senha));
         
         if (dto.getAdvogadoId() != null) {
             Advogado advogado = advogadoRepository.findById(dto.getAdvogadoId())
