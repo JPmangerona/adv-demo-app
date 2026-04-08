@@ -28,6 +28,9 @@ public class AssistenteService {
     private PasswordEncoder passwordEncoder;
 
     public AssistenteResponseDTO salvar(AssistenteRequestDTO dto) {
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+            throw new RuntimeException("Senha é obrigatória!");
+        }
         Assistente assistente = new Assistente();
         assistente.setCpf(dto.getCpf());
         assistente.setName(dto.getName());

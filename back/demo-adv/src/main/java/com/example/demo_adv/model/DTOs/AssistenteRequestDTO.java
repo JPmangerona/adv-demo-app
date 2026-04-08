@@ -2,19 +2,29 @@ package com.example.demo_adv.model.DTOs;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AssistenteRequestDTO {
+    @NotBlank(message = "CPF é obrigatório")
     private String cpf;
+    
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
+    
+    @NotBlank(message = "Username é obrigatório")
     private String username;
+    
+    @NotBlank(message = "Email é obrigatório")
     private String email;
+    
+    @NotBlank(message = "Senha é obrigatória")
     private String password;
+    
     private UUID advogadoChefeId;
 }

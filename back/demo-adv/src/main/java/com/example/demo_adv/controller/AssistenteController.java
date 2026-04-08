@@ -18,6 +18,8 @@ import com.example.demo_adv.model.DTOs.AssistenteRequestDTO;
 import com.example.demo_adv.model.DTOs.AssistenteResponseDTO;
 import com.example.demo_adv.model.service.AssistenteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/assistentes")
 @CrossOrigin(origins = "http://localhost:8081")
@@ -28,7 +30,7 @@ public class AssistenteController {
 
     // 1. CREATE (Criar)
     @PostMapping
-    public AssistenteResponseDTO criar(@RequestBody AssistenteRequestDTO assistente) {
+    public AssistenteResponseDTO criar(@Valid @RequestBody AssistenteRequestDTO assistente) {
         return service.salvar(assistente);
     }
 
@@ -46,7 +48,7 @@ public class AssistenteController {
 
     // 4. UPDATE (Atualizar)
     @PutMapping("/{id}")
-    public AssistenteResponseDTO atualizar(@PathVariable UUID id, @RequestBody AssistenteRequestDTO assistenteAtualizado) {
+    public AssistenteResponseDTO atualizar(@PathVariable UUID id, @Valid @RequestBody AssistenteRequestDTO assistenteAtualizado) {
         return service.atualizar(id, assistenteAtualizado);
     }
 
