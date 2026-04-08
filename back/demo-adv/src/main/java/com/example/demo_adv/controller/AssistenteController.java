@@ -1,12 +1,22 @@
 package com.example.demo_adv.controller;
 
-import com.example.demo_adv.model.entity.Assistente;
-import com.example.demo_adv.model.repositores.AssitenteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo_adv.model.DTOs.AssistenteRequestDTO;
+import com.example.demo_adv.model.DTOs.AssistenteResponseDTO;
+import com.example.demo_adv.model.service.AssistenteService;
 
 @RestController
 @RequestMapping("/assistentes")
@@ -14,41 +24,35 @@ import java.util.UUID;
 public class AssistenteController {
 
     @Autowired
-    private AssitenteRepository repository; // Injetando a ferramenta de banco
+    private AssistenteService service;
 
     // 1. CREATE (Criar)
     @PostMapping
-    public Assistente criar(@RequestBody Assistente assistente) {
-        return repository.save(assistente);
+    public AssistenteResponseDTO criar(@RequestBody AssistenteRequestDTO assistente) {
+        return service.salvar(assistente);
     }
 
     // 2. READ (Listar todos)
     @GetMapping
-    public List<Assistente> listar() {
-        return repository.findAll();
+    public List<AssistenteResponseDTO> listar() {
+        return service.listarTodos();
     }
 
     // 3. READ (Buscar por ID específico)
     @GetMapping("/{id}")
-    public Assistente buscarPorId(@PathVariable UUID id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Assistente não encontrado"));
+    public AssistenteResponseDTO buscarPorId(@PathVariable UUID id) {
+        return service.buscarPorId(id);
     }
 
     // 4. UPDATE (Atualizar)
     @PutMapping("/{id}")
-    public Assistente atualizar(@PathVariable UUID id, @RequestBody Assistente assistenteAtualizado) {
-        return repository.findById(id).map(assistente -> {
-            assistente.setName(assistenteAtualizado.getName());
-            // Adicione aqui outros campos que o Assistente tiver (email, cpf, etc)
-            // exemplo: assistente.setEmail(assistenteAtualizado.getEmail());
-            return repository.save(assistente);
-        }).orElseThrow(() -> new RuntimeException("Assistente não encontrado"));
+    public AssistenteResponseDTO atualizar(@PathVariable UUID id, @RequestBody AssistenteRequestDTO assistenteAtualizado) {
+        return service.atualizar(id, assistenteAtualizado);
     }
 
     // 5. DELETE (Remover)
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable UUID id) {
-        repository.deleteById(id);
+        service.deletar(id);
     }
 }
